@@ -1,7 +1,8 @@
 #include <string>
 
 //make an array of these in the lexer function?
-struct sig_item {
+struct sig_item 
+{
 
 	sig_item()
 	: token("N/A"), lexeme("N/A")

@@ -4,10 +4,13 @@
 using std::vector;
 
 //functionallity tbd
-void lexer( /*takes in ifstream as input?*/ ){
+
+//go through input file and sort everything out
+void lexer( /*takes in ifstream as input?*/ )
+{
 	vector<sig_item> found_sig_item;
 
 	//parse through 
 
-	//return array
+	//return array with lexemes and their corresponding tokens
 }
