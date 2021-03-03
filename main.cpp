@@ -33,20 +33,32 @@ int main(int argc, char* argv[])
 	}
 	while (inputfile.get(t))
 	{
-		if (t == ' ' || t == '\n' || t == '\t')
-		{
-			stuff.push_back(s); //call lexer at this point in the code?
-			s = ""; //this step should some how be done when the state is reset to the starting state.
-		} else {
-			s += t;
-		}	
+		// if (t == ' ' || t == '\n' || t == '\t')
+		// {
+		// 	stuff.push_back(s); //call lexer at this point in the code?
+		// 	s = ""; //this step should some how be done when the state is reset to the starting state.
+		// } else {
+		// 	s += t;
+		// }
+
+		//determine if current char is a number, letter or other
+		if((t >= 32 && t <= 64) || (t >=91 && t <=96) || (t >=123 && t <=126))
+		{	
+			if(t >= 48 && t <= 57){
+				cout << t << " | " << "NUMBER" << endl;
+			} else {
+				cout << t << " | " << "OTHER" << endl;
+			}
+		} else if((t >= 65 && t <= 90) || (t >=97 && t <=122)) {
+			cout << t << " | " << "LETTER" << endl;
+		}
 	}
 
-	int temp = stuff.size();
-	for(int i = 0; i < temp; ++i)
-	{
-		cout << *(stuff.begin() + i) << endl;
-	}
+	// int temp = stuff.size();
+	// for(int i = 0; i < temp; ++i)
+	// {
+	// 	cout << stuff[i] << endl;
+	// }
 
 	inputfile.close();
 
