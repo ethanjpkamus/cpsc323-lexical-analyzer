@@ -14,4 +14,3 @@ void lexer( /*takes in ifstream as input?*/ )
 
 	//return array with lexemes and their corresponding tokens
 }
-

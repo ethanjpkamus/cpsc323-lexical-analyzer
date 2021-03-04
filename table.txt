@@ -1,0 +1,20 @@
+Sketch of state table and states
+
+States:
+- reject     = 0 (rej)
+- integer    = 1 (int)
+- identifier = 2 (ide)
+- seperator  = 3 (sep)
+- operator   = 4 (opr)
+- comments   = 5 (com)
+- space      = 6 (sps)
+
+state table:  input: rej  int  ide  sep  opr  com  sps
+{   starting state  {rej, int, ide, sep, opr, com, sps},
+    integer         {int,    ,    ,    ,    ,    ,    },
+    identifer       {ide,    ,    ,    ,    ,    ,    },
+    seperator       {sep,    ,    ,    ,    ,    ,    },
+    operator        {opr,    ,    ,    ,    ,    ,    },
+    comments        {com, com, com, com, com, rej, com},
+    space           {sps,    ,    ,    ,    ,    ,    }
+}
