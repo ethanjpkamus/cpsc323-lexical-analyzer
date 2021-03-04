@@ -1,0 +1,3 @@
+! Declare and assign a number !
+int number;
+number = 9;
