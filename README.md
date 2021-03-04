@@ -5,6 +5,5 @@ The purpose of this assignment is to create a lexical analyzer (the first step i
 
 # Group Members
 * Ethan Kamus
-* Justin Meman
 * Ryan Burdick
 * Thomas Eduardo del Rosario
