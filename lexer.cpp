@@ -95,3 +95,7 @@ bool is_opr(char c)
 			c == '/' || c == '>' ||
 			c == '<' || c == '%' );
 }
+
+void print() {
+	if()
+}
