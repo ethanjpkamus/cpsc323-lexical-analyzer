@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iomanip>
 // #include <iostream>
 // #include <vector>
 #include "lexer.cpp"
@@ -8,6 +9,7 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::ifstream;
+using std::setw;
 
 int main(int argc, char* argv[])
 {
@@ -39,7 +41,7 @@ int main(int argc, char* argv[])
 
 		for(int i = 0; i < stuff.size(); ++i)
 		{
-			cout << stuff[i].token << " | " << stuff[i].lexeme << endl;
+			cout << setw(10) << stuff[i].token << " | " << stuff[i].lexeme << endl;
 		}
 	}
 

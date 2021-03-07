@@ -31,29 +31,64 @@ int statetable[][7] = {
 	{sps_, rej_, rej_, rej_, rej_, rej_, rej_}
 };
 
+string keywords[18] = { "int", "float", "bool", "if", 
+					  "else", "then", "endif", "while", 
+					  "whileend", "do", "doend", "for", 
+					  "forend", "input", "output", "and", 
+					  "or", "function" };
+
+vector<sig_item> lexer(string);
+int what_char(char);
+bool is_sep(char);
+bool is_opr(char);
+bool is_keyword(string);
+string get_token(int);
+
+
 //go through input file and sort everything out
 vector<sig_item> lexer(string line)
 {
 	vector<sig_item> things;
 	int endline = line.length();
-	char current_char = ' ';
 	int current_state = rej_;
 	int transition = rej_;
 	int previous_state = rej_;
+	string lexeme = "";
+	char current_char = ' ';
 
-	for(int i = 0; i < endline ; ++i)
+	for(int i = 0; i < endline ; )
 	{
 		current_char = line[i];
 		transition = what_char(current_char);
 		current_state = statetable[current_state][transition];
 
-		if(current_state = rej_){
+		if(current_state == rej_){
 			//check if space and store into vector
+			if(previous_state != sps_ && previous_state != com_){
+				things.push_back(sig_item(get_token(previous_state),lexeme));
+				lexeme = "";
+			}
 		} else {
 			//possibly increment here
+			lexeme += current_char;
+			++i;
 		}
+		previous_state = current_state;
 	}
 
+	if((current_state != sps_ && current_state != com_) && lexeme.length() > 0)
+	{
+		things.push_back(sig_item(get_token(previous_state),lexeme));
+	}
+
+	//find all keywords in buffer
+	for(int i = 0; i < things.size(); ++i)
+	{
+		if(is_keyword(things[i].lexeme))
+		{
+			things[i].token = "KEYWORD";
+		}
+	}
 	return things;
 }
 
@@ -74,8 +109,7 @@ int what_char(char c)
 	if(isspace(c))
 	{ return sps_; }
 
-	if(is_opr(c))
-	{ return opr_; }
+	return opr_;
 
 }
 
@@ -94,4 +128,42 @@ bool is_opr(char c)
 			c == '-' || c == '=' || 
 			c == '/' || c == '>' ||
 			c == '<' || c == '%' );
+}
+
+bool is_keyword(string s)
+{
+	for(int i = 0; i < 18; ++i)
+	{
+		if(s == keywords[i])
+		{ return true; }
+	}
+	return false;
+}
+
+//state to string
+string get_token(int i)
+{
+	switch(i)
+	{
+		case int_:
+			return "INTEGER";
+			break;
+		case ide_:
+			return "IDENTIFIER";
+			break;
+		case sep_:
+			return "SEPERATOR";
+			break;
+		case opr_:
+			return "OPERATOR";
+			break;
+		case com_:
+			return "COMMENT";
+			break;
+		case sps_:
+			return "SPACE";
+			break;
+		default:
+			return "REJECT";
+	}
 }
