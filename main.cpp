@@ -41,22 +41,11 @@ int main(int argc, char* argv[])
 
 		for(int i = 0; i < stuff.size(); ++i)
 		{
-			cout << setw(10) << stuff[i].token << " | " << stuff[i].lexeme << endl;
+			cout << setw(10) << stuff[i].token  << " | " << stuff[i].lexeme << endl;
 		}
 	}
 
-	// int temp = stuff.size();
-	// for(int i = 0; i < temp; ++i)
-	// {
-	// 	cout << stuff[i] << endl;
-	// }
-
 	inputfile.close();
-
-
-	//function call to lexer() and pass it an ifstream
-	//receive output from lexer() and store in main
-	//store output in a new txt file via ofstream
 
 	return 0;
 }

@@ -31,11 +31,11 @@ int statetable[][7] = {
 	{sps_, rej_, rej_, rej_, rej_, rej_, rej_}
 };
 
-string keywords[18] = { "int", "float", "bool", "if", 
+string keywords[] = { "int", "float", "bool", "if", 
 					  "else", "then", "endif", "while", 
 					  "whileend", "do", "doend", "for", 
 					  "forend", "input", "output", "and", 
-					  "or", "function" };
+					  "or", "function", "return" };
 
 vector<sig_item> lexer(string);
 int what_char(char);
@@ -61,16 +61,22 @@ vector<sig_item> lexer(string line)
 		current_char = line[i];
 		transition = what_char(current_char);
 		current_state = statetable[current_state][transition];
-
+		
+		// cout << current_char << "" << previous_state << " " << current_state << endl;
 		if(current_state == rej_){
-			//check if space and store into vector
-			if(previous_state != sps_ && previous_state != com_){
+			if(previous_state == com_)
+			{
+				++i;
+				lexeme = "";
+			}
+			else if(previous_state != com_ && previous_state != sps_){
 				things.push_back(sig_item(get_token(previous_state),lexeme));
 				lexeme = "";
 			}
 		} else {
 			//possibly increment here
-			lexeme += current_char;
+			if(!isspace(current_char))
+			{ lexeme += current_char; }
 			++i;
 		}
 		previous_state = current_state;
@@ -89,6 +95,7 @@ vector<sig_item> lexer(string line)
 			things[i].token = "KEYWORD";
 		}
 	}
+
 	return things;
 }
 
@@ -97,7 +104,7 @@ int what_char(char c)
 	if(c == '!') 
 	{ return com_; } 
 	
-	if(isalpha(c) || c == '_')
+	if(isalpha(c) || c == '_' || c == '$')
 	{ return ide_; }
 	
 	if(is_sep(c))
@@ -109,7 +116,10 @@ int what_char(char c)
 	if(isspace(c))
 	{ return sps_; }
 
-	return opr_;
+	if(is_opr(c))
+	{ return opr_; }
+
+	return rej_; 
 
 }
 
@@ -132,7 +142,7 @@ bool is_opr(char c)
 
 bool is_keyword(string s)
 {
-	for(int i = 0; i < 18; ++i)
+	for(int i = 0; i < 19; ++i)
 	{
 		if(s == keywords[i])
 		{ return true; }
