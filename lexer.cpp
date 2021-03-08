@@ -18,17 +18,21 @@ enum states
 	sep_ = 3,
 	opr_ = 4,
 	com_ = 5,
-	sps_ = 6
+	sps_ = 6,
+	rea_ = 7,
+	unk_ = 8
 };
 
-int statetable[][7] = {
-	{rej_, int_, ide_, sep_, opr_, com_, sps_},
-	{int_, int_, int_, rej_, rej_, rej_, rej_},
-	{ide_, ide_, ide_, rej_, rej_, rej_, rej_},
-	{sep_, rej_, rej_, rej_, rej_, rej_, rej_},
-	{opr_, rej_, rej_, rej_, opr_, rej_, rej_},
-	{com_, com_, com_, com_, com_, rej_, com_},
-	{sps_, rej_, rej_, rej_, rej_, rej_, rej_}
+int statetable[][9] = {
+	{rej_, int_, ide_, sep_, opr_, com_, sps_, rea_, unk_},
+	{int_, int_, unk_, rej_, rej_, rej_, rej_, rea_, rej_},
+	{ide_, ide_, ide_, rej_, rej_, rej_, rej_, unk_, rej_},
+	{sep_, rej_, rej_, rej_, rej_, rej_, rej_, unk_, rej_},
+	{opr_, rej_, rej_, rej_, opr_, rej_, rej_, unk_, rej_},
+	{com_, com_, com_, com_, com_, rej_, com_, com_, rej_},
+	{sps_, rej_, rej_, rej_, rej_, rej_, rej_, rej_, rej_},
+	{rea_, rea_, unk_, rej_, rej_, rej_, rej_, unk_, rej_},
+	{unk_, unk_, unk_, rej_, unk_, unk_, rej_, unk_, unk_}
 };
 
 string keywords[] = { "int", "float", "bool", "if", 
@@ -104,22 +108,25 @@ int what_char(char c)
 	if(c == '!') 
 	{ return com_; } 
 	
-	if(isalpha(c) || c == '_' || c == '$')
+	else if(isalpha(c) || c == '_' || c == '$')
 	{ return ide_; }
 	
-	if(is_sep(c))
+	else if(is_sep(c))
 	{ return sep_; }
 
-	if(isdigit(c))
+	else if(isdigit(c))
 	{ return int_; }
 
-	if(isspace(c))
+	else if(isspace(c))
 	{ return sps_; }
 
-	if(is_opr(c))
+	else if(is_opr(c))
 	{ return opr_; }
 
-	return rej_; 
+	else if(c == '.')
+	{ return rea_; }
+
+	return unk_;
 
 }
 
@@ -128,7 +135,7 @@ bool is_sep(char c)
 	return (c == '{' || c == '}' || 
 			c == '(' || c == ')' || 
 			c == '[' || c == ']' ||
-			c == ',' || c == '.' ||
+			c == ',' || /*c == '.' ||*/
 			c == ':' || c == ';' );
 }
 
@@ -172,6 +179,12 @@ string get_token(int i)
 			break;
 		case sps_:
 			return "SPACE";
+			break;
+		case rea_:
+			return "REAL";
+			break;
+		case unk_:
+			return "UNKNOWN";
 			break;
 		default:
 			return "REJECT";
