@@ -24,7 +24,7 @@ enum states
 };
 
 int statetable[][9] = {
-	{rej_, int_, ide_, sep_, opr_, com_, sps_, rea_, unk_},
+	{rej_, int_, ide_, sep_, opr_, com_, sps_, unk_, unk_},
 	{int_, int_, unk_, rej_, rej_, rej_, rej_, rea_, rej_},
 	{ide_, ide_, ide_, rej_, rej_, rej_, rej_, unk_, rej_},
 	{sep_, rej_, rej_, rej_, rej_, rej_, rej_, unk_, rej_},

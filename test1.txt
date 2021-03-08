@@ -1,7 +1,7 @@
 ! Declare and assign a number ! int number;
 number = 9;
 number = 1.0;
-number = 12.5.6;
-
+number = 12.5.6; .
+.
 string 99bottles;
 string bottles99;
